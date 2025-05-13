@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script defer>
+    const products = [
+      {
+        id: 1,
+        name: "iPhone 16 Plus (128GB, Pink)",
+        price: 85000,
+        description: "With box and cable. Battery health 100%.",
+        image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-max-natural-titanium-select?wid=940&hei=1112&fmt=png-alpha&.v=1693010533602"
+      },
+      {
+        id: 2,
+        name: "Samsung Z Fold 3 (256GB)",
+        price: 35000,
+        description: "With box and cable. Good battery health.",
+        image: "https://images.samsung.com/is/image/samsung/p6pim/in/sm-f926bzgginu/gallery/in-galaxy-z-fold3-5g-f926-sm-f926bzgginu-481122135?$684_547_PNG$"
+      }
+    ];
+
+    let cart = [];
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      cart.push(product);
+      alert(product.name + " added to cart.");
+      renderCart();
+    }
+
+    function renderProducts() {
+      const container = document.getElementById("products");
+      container.innerHTML = products.map(product => `
+        <div class="bg-white shadow-md rounded p-4">
+          <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded"/>
+          <h2 class="text-xl font-bold mt-2">${product.name}</h2>
+          <p class="text-gray-700">₹${product.price}</p>
+          <p class="text-sm text-gray-500">${product.description}</p>
+          <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded" onclick="addToCart(${product.id})">Buy Now</button>
+        </div>
+      `).join("");
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById("cartItems");
+      cartList.innerHTML = cart.map(item => `<li class="py-1 border-b">${item.name} - ₹${item.price}</li>`).join("");
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById("cartTotal").textContent = "Total: ₹" + total;
+    }
+
+    window.onload = function () {
+      renderProducts();
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <div class="max-w-6xl mx-auto p-4">
+    <header class="flex justify-between items-center py-4">
+      <h1 class="text-3xl font-bold">My Mobile Store</h1>
+      <nav>
+        <a href="#products" class="px-4">Products</a>
+        <a href="#contact" class="px-4">Contact</a>
+        <a href="#cart" class="px-4">Cart</a>
+      </nav>
+    </header>
+
+    <section id="products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
+      <!-- Product cards inserted here -->
+    </section>
+
+    <section id="cart" class="mt-8 bg-white p-4 rounded shadow">
+      <h2 class="text-2xl font-semibold mb-2">Cart</h2>
+      <ul id="cartItems" class="mb-2"></ul>
+      <p id="cartTotal" class="font-bold">Total: ₹0</p>
+    </section>
+
+    <section id="contact" class="mt-8 bg-white p-4 rounded shadow">
+      <h2 class="text-2xl font-semibold mb-2">Contact Us</h2>
+      <p class="mb-2 text-sm text-gray-600">📧 You can also email us directly at <strong>sufiyanshareef491@gmail.com</strong></p>
+      <form action="mailto:sufiyanshareef491@gmail.com" method="POST" enctype="text/plain" class="space-y-4">
+        <input type="text" name="Name" placeholder="Your Name" class="w-full p-2 border rounded" required />
+        <input type="email" name="Email" placeholder="Your Email" class="w-full p-2 border rounded" required />
+        <textarea name="Message" placeholder="Your Message" class="w-full p-2 border rounded" rows="4" required></textarea>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Send</button>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
